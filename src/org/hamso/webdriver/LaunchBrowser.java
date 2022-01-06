@@ -16,12 +16,12 @@ public class LaunchBrowser {
     public static WebDriver driver = null;
 
     public static void main(String[] args) throws InterruptedException{
-        System.setProperty("webdriver.chrome.driver","driver/chromedriver");
+        System.setProperty("webdriver.chrome.driver","driver/chromedriver.exe");
         driver = new ChromeDriver();
         driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
 
         // TODO: open the web app
-        driver.navigate().to("https://essayshark.com/");
+        driver.navigate().to("https://essayshark.com/latest-orders.html");
         driver.manage().window().maximize();
         String title = driver.getTitle();
 
@@ -33,10 +33,12 @@ public class LaunchBrowser {
 
         // TODO: login to mymovies africa
         String tagname= "";
-        tagname=driver.findElement(By.cssSelector("button[class='header__button--account-desktop button--ghost button--ghost-blue js--account']")).getText();
+//        tagname=driver.findElement(By.cssSelector("button[class='header__button--account-desktop button--ghost button--ghost-blue js--account']")).getText();
+        tagname=driver.findElement(By.className("bb-accountEmptyButtonText")).getText();
         System.out.println(tagname);
 
-        WebElement category = driver.findElement(By.cssSelector("button[class='header__button--account-desktop button--ghost button--ghost-blue js--account']"));
+//        WebElement category = driver.findElement(By.cssSelector("button[class='header__button--account-desktop button--ghost button--ghost-blue js--account']"));
+        WebElement category = driver.findElement((By.className("bb-accountEmptyButtonText")));
         Actions action = new Actions(driver);
         action.moveToElement(category);
         action.click();
@@ -59,12 +61,14 @@ public class LaunchBrowser {
 //        actions.moveToElement(login).click(login).build().perform();
 //        Thread.sleep(3000);
 
-        WebElement email= driver.findElement(By.id("auth-login"));
-        email.clear();
+        WebElement d = driver.findElement(By.className("bb-modalContainer"));
+        WebElement email = d.findElement(By.xpath("//input[contains(@class, 'login')]"));
+//        WebElement email= driver.findElement(By.name("login"));
+//        email.clear();
         email.sendKeys("edgarmugeni@gmail.com");
         System.out.println(email);
 
-        WebElement password = driver.findElement(By.id("auth-password"));
+        WebElement password = driver.findElement(By.name("password"));
         password.clear();
         password.sendKeys("edgarshark");
         System.out.println(password);
